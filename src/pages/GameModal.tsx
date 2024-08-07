@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format, fromUnixTime } from 'date-fns'
-import { useState } from 'react'
+import { format } from 'date-fns'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
@@ -10,7 +10,7 @@ import { GameStatus, getAllGameStatus } from '~/types/enum'
 import { GameItems } from '~/types/game.type'
 import { existByName } from '~/utils/game.util'
 import { NAME_REGEX } from '~/utils/regexChecker'
-import { convertDateToTimestamp } from '~/utils/time.util'
+import { convertDateToTimestamp, getDateTimeValue } from '~/utils/time.util'
 interface GameModalProps {
   isEditGame: boolean
   data?: GameItems
@@ -19,7 +19,11 @@ interface GameModalProps {
 }
 
 const formSchema = z.object({
-  name: z.string().trim().regex(NAME_REGEX, 'Please enter name of game!!!'),
+  name: z
+    .string()
+    .trim()
+    .min(1, 'Please input name of game !')
+    .regex(NAME_REGEX, 'Please enter the correct name format !'),
   releaseDate: z.string(),
   status: z.string()
 })
@@ -33,6 +37,7 @@ function GameModal({
   const listOfGames = useAppSelector(state => state.gameReducer.games)
   const {
     register,
+    watch,
     handleSubmit,
     formState: { errors }
   } = useForm<z.infer<typeof formSchema>>({
@@ -44,12 +49,17 @@ function GameModal({
     }
   })
 
-  const getDateTimeValue = (timestamp: number | undefined): string => {
-    if (timestamp === undefined) {
-      return format(new Date(), "yyyy-MM-dd'T'HH:mm")
+  const status = watch('status')
+  const [isReleaseDateDisabled, setIsReleaseDateDisabled] = useState(false)
+
+  useEffect(() => {
+    if (data?.id && status === GameStatus.ACTIVE) {
+      setIsReleaseDateDisabled(true)
+    } else {
+      setIsReleaseDateDisabled(false)
     }
-    return format(fromUnixTime(timestamp), "yyyy-MM-dd'T'HH:mm")
-  }
+  }, [data?.id, status])
+
   const [releaseDate, setReleaseDate] = useState<string>(getDateTimeValue(data?.releaseDate))
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -144,7 +154,7 @@ function GameModal({
               disabled={!isEditGame}
               {...register('name', { required: true })}
             ></input>
-            {errors.name && <p>{errors.name.message}</p>}
+            {errors.name && <p className='error_custom'>{errors.name.message}</p>}
             <label className='w3-text-blue'>
               <b>Release Date</b>
             </label>
@@ -152,15 +162,15 @@ function GameModal({
               type='datetime-local'
               id='releaseDate'
               value={releaseDate}
-              disabled={!isEditGame}
+              disabled={isReleaseDateDisabled || !isEditGame}
               {...register('releaseDate')}
               onChange={handleReleaseDateChange}
             ></input>
-
+            
+            <label className='w3-text-blue'>
+              <b>Status</b>
+            </label>
             <div className='select'>
-              <label className='w3-text-blue'>
-                <b>Status</b>
-              </label>
               <select disabled={!isEditGame} {...register('status')}>
                 {getAllGameStatus().map((status, index) => (
                   <option value={status} key={index}>

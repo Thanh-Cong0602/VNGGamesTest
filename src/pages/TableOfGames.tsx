@@ -54,7 +54,7 @@ function TableOfGames() {
       <div className='content'>
         <div className='title_container'>
           <h1 className='title_content'>Game Management Table with Filtering</h1>
-          <button className='btn btn_green' onClick={() => handleOpenModal()}>
+          <button className='btn btn_green btn_with_icon' onClick={() => handleOpenModal()}>
             <i className='fa fa-plus'></i>
             Create
           </button>

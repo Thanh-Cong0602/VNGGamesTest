@@ -7,6 +7,7 @@ interface ButtonActionProps {
   data?: GameItems
   setReloadPage: React.Dispatch<React.SetStateAction<boolean>>
 }
+
 function ButtonActions({ data, setReloadPage }: Readonly<ButtonActionProps>) {
   const [isModalOpen, setModalOpen] = useState<boolean>(false)
   const [isModalDelete, setModalDelete] = useState<boolean>(false)

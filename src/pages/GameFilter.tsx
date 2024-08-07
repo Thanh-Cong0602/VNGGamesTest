@@ -42,33 +42,40 @@ function GameFilter({ setGames }: Readonly<GameFilterProps>) {
   return (
     <div className='w3-card-4 filter_container'>
       <form className='w3-container form_custom' onSubmit={handleSubmit(onSubmit)}>
-        <label className='w3-text-blue'>
-          <b>Filter</b>
+        <div className='status_display'>
+          <i className='fa fa-filter'></i>
+          <label className='w3-text-blue'>
+            <b>Filter Results</b>
+          </label>
+        </div>
+        <label>
+          <b>Name:</b>
         </label>
-        <div className='filter_search'>
-          <input
-            className='w3-input w3-border'
-            type='text'
-            placeholder='Search by name'
-            {...register('name')}
-          ></input>
-          <div className='select'>
-            <select {...register('status')}>
-              <option value=''>Status</option>
-              {getAllGameStatus().map((status, index) => (
-                <option value={status} key={index}>
-                  {status}
-                </option>
-              ))}
-            </select>
-          </div>
+        <input
+          className='w3-input w3-border'
+          type='text'
+          placeholder='Search by name'
+          {...register('name')}
+        ></input>
+        <label>
+          <b>Status:</b>
+        </label>
+        <div className='select'>
+          <select {...register('status')}>
+            <option value=''>---</option>
+            {getAllGameStatus().map((status, index) => (
+              <option value={status} key={index}>
+                {status}
+              </option>
+            ))}
+          </select>
         </div>
         <div className='btn_actions'>
-          <button className='btn_red btn btn_with_icon' onClick={clearFilter}>
+          <button className='btn_red btn btn_with_icon' type='button' onClick={clearFilter}>
             <i className='fa fa-trash'></i>
             Clear
           </button>
-          <button className='btn_blue btn btn_with_icon'>
+          <button className='btn_blue btn btn_with_icon' type='submit'>
             <i className='fa fa-search'></i>
             Search
           </button>
