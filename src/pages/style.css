@@ -59,6 +59,15 @@
   align-items: center;
   gap: 4px;
 }
+
+.btn_with_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  gap: 8px;
+}
+
 .status_display {
   display: flex;
   align-items: center;
@@ -74,4 +83,27 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.title_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+.title_content {
+  font-weight: 700;
+}
+
+.filter_container {
+  border: 1px solid grey;
+  border-radius: 12px;
+  margin: 12px;
+}
+
+.filter_search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }

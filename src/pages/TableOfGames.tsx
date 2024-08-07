@@ -9,6 +9,7 @@ import { convertTimestampToDate } from '~/utils/time.util'
 import ButtonActions from './ButtonActions'
 import GameModal from './GameModal'
 import './style.css'
+import GameFilter from './GameFilter'
 
 function TableOfGames() {
   const dispatch = useAppDispatch()
@@ -51,10 +52,14 @@ function TableOfGames() {
   return (
     <>
       <div className='content'>
-        <button className='btn btn_green' onClick={() => handleOpenModal()}>
-          <i className='fa fa-plus'></i>
-          Create
-        </button>
+        <div className='title_container'>
+          <h1 className='title_content'>Game Management Table with Filtering</h1>
+          <button className='btn btn_green' onClick={() => handleOpenModal()}>
+            <i className='fa fa-plus'></i>
+            Create
+          </button>
+        </div>
+        <GameFilter setGames={setGames} />
 
         <table className='customers'>
           <tr>

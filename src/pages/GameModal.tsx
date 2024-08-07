@@ -169,7 +169,7 @@ function GameModal({
                 ))}
               </select>
             </div>
-            {isEditGame && <input type='submit' />}
+            {isEditGame && <input type='submit' className='btn' />}
           </form>
         </div>
       </div>

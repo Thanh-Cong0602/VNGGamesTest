@@ -1,4 +1,3 @@
-
 export type GameItems = {
   id?: string
   name: string
