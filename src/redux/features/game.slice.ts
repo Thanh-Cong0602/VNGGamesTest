@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { GameItems } from '~/types/game.type'
+import { GameItems } from '~/common/types/game.type'
 
 type GameState = {
   games: GameItems[]

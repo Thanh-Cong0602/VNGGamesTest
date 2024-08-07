@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { gamesApi } from '~/api/service/games'
+import { errorMessages } from '~/common/constants/message.constant'
+import { GameItems } from '~/common/types/game.type'
+import { GameStatus } from '~/common/types/gameStatus.type'
+import { convertTimestampToDate } from '~/common/utils/game.util'
 import { setListOfGames } from '~/redux/features'
 import { useAppDispatch } from '~/redux/hooks'
-import { GameStatus } from '~/types/enum'
-import { GameItems } from '~/types/game.type'
-import { convertTimestampToDate } from '~/utils/time.util'
 import ButtonActions from './ButtonActions'
+import GameFilter from './GameFilter'
 import GameModal from './GameModal'
 import './style.css'
-import GameFilter from './GameFilter'
 
 function TableOfGames() {
   const dispatch = useAppDispatch()
@@ -35,10 +36,11 @@ function TableOfGames() {
         setGames(sortArrays)
         dispatch(setListOfGames(gamesRes.data))
       } else {
-        toast.error('Error when call API, please contact admin for support.')
+        toast.error(errorMessages.MSG_E0005)
       }
-    } catch (error) {
-      toast.error('Error fetching games:' + error)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
     }
   }
 

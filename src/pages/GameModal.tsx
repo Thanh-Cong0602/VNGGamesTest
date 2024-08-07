@@ -5,12 +5,16 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { z } from 'zod'
 import { gamesApi } from '~/api/service/games'
+import { NAME_REGEX, STANDAR_DATE_TIME_FORMAT } from '~/common/constants/constant'
+import {
+  errorMessages,
+  invalidMessages,
+  successMessages
+} from '~/common/constants/message.constant'
+import { GameItems } from '~/common/types/game.type'
+import { GameStatus, getAllGameStatus } from '~/common/types/gameStatus.type'
+import { convertDateToTimestamp, existByName, getDateTimeValue } from '~/common/utils/game.util'
 import { useAppSelector } from '~/redux/hooks'
-import { GameStatus, getAllGameStatus } from '~/types/enum'
-import { GameItems } from '~/types/game.type'
-import { existByName } from '~/utils/game.util'
-import { NAME_REGEX } from '~/utils/regexChecker'
-import { convertDateToTimestamp, getDateTimeValue } from '~/utils/time.util'
 interface GameModalProps {
   isEditGame: boolean
   data?: GameItems
@@ -22,8 +26,8 @@ const formSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(1, 'Please input name of game !')
-    .regex(NAME_REGEX, 'Please enter the correct name format !'),
+    .min(1, invalidMessages.MSG_V0001)
+    .regex(NAME_REGEX, invalidMessages.MSG_V0002),
   releaseDate: z.string(),
   status: z.string()
 })
@@ -44,7 +48,7 @@ function GameModal({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: data?.name,
-      releaseDate: format(new Date(), "yyyy-MM-dd'T'HH:mm"),
+      releaseDate: format(new Date(), STANDAR_DATE_TIME_FORMAT),
       status: data?.status ?? GameStatus.ACTIVE
     }
   })
@@ -74,12 +78,15 @@ function GameModal({
 
     if (data?.id) {
       if (isExistName && data.name !== requestField.name) {
-        toast.error('Game name already exists')
+        toast.error(errorMessages.MSG_E0001)
         return
+      }
+      if (data.status === GameStatus.ACTIVE && status === GameStatus.ACTIVE) {
+        requestField.releaseDate = data.releaseDate
       }
     } else {
       if (isExistName) {
-        toast.error('Game name already exists')
+        toast.error(errorMessages.MSG_E0001)
         return
       }
     }
@@ -90,8 +97,8 @@ function GameModal({
 
     const success = await handleApiResponse(
       apiCall,
-      data?.id ? 'Game updated successfully' : 'Game created successfully',
-      data?.id ? 'Error while updating game' : 'Error while creating game'
+      data?.id ? successMessages.MSG_S0002 : successMessages.MSG_S0001,
+      data?.id ? errorMessages.MSG_E0002 : errorMessages.MSG_E0003
     )
 
     if (success) {
@@ -115,8 +122,9 @@ function GameModal({
         toast.error(errorMessage)
         return false
       }
-    } catch (error) {
-      toast.error('Error: ' + error)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
       return false
     }
   }
@@ -166,7 +174,11 @@ function GameModal({
               {...register('releaseDate')}
               onChange={handleReleaseDateChange}
             ></input>
-            
+            {data?.id && isEditGame && (
+              <p className='note'>
+                *Note: Release Date will not change if the value of Status is Active.
+              </p>
+            )}
             <label className='w3-text-blue'>
               <b>Status</b>
             </label>

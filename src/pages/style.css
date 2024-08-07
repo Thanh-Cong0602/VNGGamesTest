@@ -82,14 +82,14 @@
 .form_custom {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
 }
 
 .title_container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding-bottom: 12px;
 }
 
 .title_content {
@@ -99,7 +99,7 @@
 .filter_container {
   border: 1px solid grey;
   border-radius: 12px;
-  margin: 12px;
+  margin-bottom: 12px;
 }
 
 .filter_search {
@@ -112,4 +112,18 @@
 
 .error_custom {
   color: red;
+}
+
+.note {
+  color: black;
+  font-style: italic;
+  margin-top: 0px;
+}
+
+.delete_container {
+  padding: 12px;
+}
+
+.w3-modal-content {
+  width: 500px;
 }

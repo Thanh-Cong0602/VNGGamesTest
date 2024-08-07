@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { GameItems } from '~/common/types/game.type'
+import { getAllGameStatus } from '~/common/types/gameStatus.type'
 import { useAppSelector } from '~/redux/hooks'
-import { getAllGameStatus } from '~/types/enum'
-import { GameItems } from '~/types/game.type'
 
 const formSchema = z.object({
   name: z.string().optional(),

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { GameItems } from '~/types/game.type'
+import { GameItems } from '~/common/types/game.type'
 import DeleteGameModal from './DeleteGameModal'
 import GameModal from './GameModal'
 

@@ -1,7 +1,7 @@
 import { ENDPOINTS } from '~/api/endpoints'
 import API from '~/api/instance'
-import { GameItems } from '~/types/game.type'
-import { handlePath } from '../helper'
+import { GameItems } from '~/common/types/game.type'
+import { handlePath } from '~/common/utils/game.util'
 
 export const gamesApi = {
   getAllGames() {

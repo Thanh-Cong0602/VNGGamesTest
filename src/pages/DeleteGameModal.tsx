@@ -1,6 +1,7 @@
 import { toast } from 'react-toastify'
 import { gamesApi } from '~/api/service/games'
-import { GameItems } from '~/types/game.type'
+import { errorMessages, successMessages } from '~/common/constants/message.constant'
+import { GameItems } from '~/common/types/game.type'
 
 interface DeleteGameModalProps {
   data?: GameItems
@@ -17,12 +18,13 @@ function DeleteGameModal({
     try {
       const deleteRes = await gamesApi.deleteGame(data?.id as string)
       if (deleteRes.status === 200) {
-        toast.success('Game deleted successfully')
+        toast.success(successMessages.MSG_S0003)
       } else {
-        toast.error('Error: Failed to delete game')
+        toast.error(errorMessages.MSG_E0004)
       }
-    } catch (error) {
-      toast.error('Error: ' + error)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.message)
     } finally {
       setReloadPage(true)
       handleCloseModalDelete()
@@ -37,8 +39,8 @@ function DeleteGameModal({
           </span>
           <h2>Delete game</h2>
         </header>
-        <div className='w3-card-4 form_custom'>
-          <p>{`Are you sure delete the game called ${data?.name}`} </p>
+        <div className='w3-card-4 form_custom delete_container'>
+          <p>{`Are you sure delete the game called ${data?.name} ?`} </p>
           <button className='btn_red btn' onClick={handleDelete}>
             Delete
           </button>
