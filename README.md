@@ -1,16 +1,22 @@
-Interview_test_assignment
+# Interview_test_assignment
+
 Wellcome to developing a test-assignment project
 
-Description
-Project info #################################
-Project manager: Nguyen Thanh Cong
-Version: 1.0
-Language: React + TypeScript + Vite
-Year: 2024 - current
-Link demo: https://vng-games-test.vercel.app/
+# Description
 
-Commands for running and testing
-Run the development server: #############
+- `Project info #################################`
+  - Project manager: Nguyen Thanh Cong
+  - Version: 1.0
+  - Language: React + TypeScript + Vite
+  - Year: 2024 - current
+  - Link demo: https://vng-games-test.vercel.app/
+
+
+## Commands for running and testing
+
+- `Run the development server: #############`
+
+```bash
 npm run dev
 # or
 yarn dev
